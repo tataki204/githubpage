@@ -59,7 +59,6 @@
               <span><a href="tel://#" class="d-flex align-items-center"><span class="icon-envelope mr-2"></span><span>sodoo@domain.com</span></a></span>
             </p>
           </div>
-
         </div>
       </div> 
     </div>
@@ -75,7 +74,8 @@
               <div class="row justify-content-center mb-4">
                 <div class="col-md-10 text-center">
                   <h1> <span class="typed-words"></span></h1>
-                  <p class="lead mb-5">A free bootstrap template from the fine folks at <a href="#">Untree.co</a></p>
+                  <!-- <p class="lead mb-5">бидэнтэй холбогдоно уу <a href="#">Untree.co</a></p> -->
+                  <p class="lead mb-5">бидэнтэй холбогдоно уу </p>
 
                   <!-- Input Field and Calculate Button -->
                   <div id="inputDiv">
@@ -99,6 +99,7 @@
                         <input type="text" class="form-control" id="phone" placeholder="Enter your phone number">
                       </div>
                     </form>
+                    <button id="sendButton" type="button" class="btn btn-success" onclick="sendContactForm()">Send</button>
                   </div>
 
                 </div>
@@ -136,9 +137,9 @@
     <script src="js/jquery.sticky.js"></script>
 
     <script src="js/typed.js"></script>
-     <script>
+    <script>
       var typed = new Typed('.typed-words', {
-        strings: ["танай тог их гарж байн уу"," таньд энэ асуудлаа хэрхэн шийдэх вэ гэсэн хүндхэн даалгавар оногдож байна уу"," тийм бол бидэнд даатга"],
+        strings: ["танай тог их гарж байн уу"," тийм бол бидэнд даатга"],
         typeSpeed: 80,
         backSpeed: 80,
         backDelay: 4000,
@@ -159,6 +160,9 @@
           
           // Show the contact form after calculation
           document.getElementById("contactForm").style.display = "block";
+          
+          // Change the button text to "Send"
+          document.querySelector(".btn-primary").innerText = "Send";
         } else {
           document.getElementById("result").innerHTML = "Please enter a number.";
         }
@@ -195,8 +199,6 @@
         }
       }
     </script>
-
-    <script src="js/main.js"></script>
 
     <script src="js/main.js"></script>
 
