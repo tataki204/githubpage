@@ -1,47 +1,52 @@
 # My Finance
 
-GitHub Pages frontend + Google Apps Script Web App + Google Sheets database.
+Existing GitHub Pages finance UI using Firebase Authentication and Cloud Firestore. The interface, dashboard, categories, month filter, transaction form, and receipt calculator remain vanilla HTML/CSS/JavaScript.
 
-## Files
+## Architecture
 
-- `index.html` and `css/style.css`: existing finance UI.
-- `js/finance.js`: frontend API client. Set `API_URL` near the top to the deployed Apps Script Web App URL.
-- `apps-script/Code.gs`: backend. Paste this file into a new Google Apps Script project.
+`GitHub Pages -> Firebase Authentication -> Cloud Firestore`
 
-## Google Sheet setup
+Firestore is the source of truth. No Apps Script, Google Sheets API, service account, server, or paid backend is used. The app does not use localStorage for financial data, so logout cannot leave another user's cached transactions visible.
 
-1. Create a spreadsheet named `My Finance DB`.
-2. Copy its ID from the URL between `/d/` and `/edit`.
-3. Open **Extensions > Apps Script**.
-4. Paste `apps-script/Code.gs` into the script editor.
-5. Replace `PASTE_YOUR_SPREADSHEET_ID_HERE` with the spreadsheet ID.
-6. Save the project. The `Transactions` tab and exact header row are created automatically on the first request:
+## Firebase setup
 
-`id | date | type | category | amount | note | createdAt | userEmail`
+1. Create a Firebase project at the Firebase Console.
+2. Keep the project on the Spark free plan. Do not enable billing.
+3. In **Build > Authentication > Sign-in method**, enable **Google**.
+4. In **Build > Firestore Database**, create a database in production mode.
+5. Register a Web app in **Project settings > Your apps**.
+6. Copy the web config values into `js/firebase.js`, replacing all `PASTE_FIREBASE_*` values.
+7. Publish the complete contents of `firestore.rules` in **Firestore Database > Rules**, then click **Publish**.
 
-## Deploy Apps Script
+The public Firebase web config is not a password. Firestore Security Rules and Firebase Auth are the security boundary. Never add Admin SDK credentials or service account keys to this repository.
 
-1. Select **Deploy > New deployment**.
-2. Select **Web app**.
-3. Set **Execute as** to **Me**.
-4. Set **Who has access** to **Anyone**.
-5. Authorize the script and copy the Web app URL ending in `/exec`.
-6. In `js/finance.js`, replace `PASTE_APPS_SCRIPT_WEB_APP_URL_HERE` in `API_URL` with that URL.
-7. Push the frontend to GitHub Pages.
+## Firestore structure
 
-This uses Apps Script and Sheets only; Google Cloud billing, service accounts, and the Sheets REST API are not required.
+```text
+users/{uid}/transactions/{transactionId}
+```
 
-## Data behavior
+Each transaction contains `id`, `type`, `amount`, `category`, `date`, `note`, `createdAt`, and `userId`. The document path and `userId` are tied to the authenticated Firebase UID by `firestore.rules`.
 
-Google Sheets is the source of truth. `localStorage` is only a cache used to keep the last loaded view visible when the backend is temporarily unavailable. New transactions are never reported as saved until Apps Script confirms success.
+## GitHub Pages
 
-The frontend asks for an email label on login so rows can be separated by `userEmail`. This is not secure authentication. For a truly private deployment, keep the Web App URL private or set `ALLOWED_USER_EMAIL` in `Code.gs` to the only permitted email. Anyone who can access an `Anyone` Web App URL may otherwise call it.
+Push the repository to GitHub and enable **Settings > Pages > Deploy from branch > main > / (root)**. The Firebase web SDK loads from the official Google CDN, so no Node.js build step is needed.
 
-## API
+## Testing
 
-- `GET ?action=list&userEmail=...`: list transactions.
-- `POST {"action":"add","transaction":{...}}`: add with validation and duplicate-ID protection.
-- `POST {"action":"update","transaction":{...}}`: update by ID.
-- `POST {"action":"delete","id":"...","userEmail":"..."}`: delete by ID.
-- `POST {"action":"clear","userEmail":"..."}`: clear the matching user's rows.
-# githubpage
+1. Open the GitHub Pages URL.
+2. Sign in with Google.
+3. Add income and expense transactions.
+4. Add receipt items and save the receipt as an expense.
+5. Check the dashboard and month filter.
+6. Delete a transaction and refresh the page.
+7. Sign out, then sign in as another account. The previous account's transactions must not appear.
+8. Use Firestore Rules Playground or the Firebase Emulator to verify unauthenticated and cross-user reads/writes are denied.
+
+## Spark plan
+
+This implementation uses only Firebase Authentication and Firestore client SDK features available without a paid server. It does not use Cloud Functions, Cloud Run, Firebase Hosting, Storage, or Admin SDK. Free quotas still apply; if a quota is exceeded, Firebase rejects requests and the UI shows an error rather than claiming a transaction was saved.
+
+## Known limitations
+
+The Google web config is visible in the public frontend by design. This is normal for Firebase web apps. Security depends on Auth and Firestore Rules, not config secrecy. No application can honestly guarantee 100% security, so protect the Google account and review Firestore Rules before using real financial data.
