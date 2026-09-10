@@ -16,9 +16,9 @@
       <div class="brand login-brand"><span class="brand-mark">₮</span><span>миний санхүү</span></div>
       <p class="eyebrow">Хувийн орон зай</p>
       <h1>Санхүүгээ<br><span>нэг дор.</span></h1>
-      <p class="login-copy">Зөвхөн өөрийн Google бүртгэлээр нэвтэрч орлого, зарлагаа хараарай.</p>
-      <button id="loginButton" class="google-button login-button" type="button">Google-ээр нэвтрэх</button>
-      <p id="loginMessage" class="login-message" role="status">Таны мэдээлэл таны Google Sheet-д хадгалагдана.</p>
+      <p class="login-copy">Өөрийн санхүүгийн бүртгэлээ Google Sheets дээр хадгалж, хаанаас ч хандаарай.</p>
+      <button id="loginButton" class="google-button login-button" type="button">Санхүүгээ нээх</button>
+      <p id="loginMessage" class="login-message" role="status">GitHub Pages + Apps Script + Google Sheets</p>
     </div>
     <p class="login-footer">GitHub Pages · Хувийн санхүү</p>
   </section>
@@ -26,7 +26,7 @@
   <main id="financeApp" class="app-shell hidden">
     <header class="topbar">
       <a class="brand" href="#dashboard" aria-label="Нүүр хуудас"><span class="brand-mark">₮</span><span>миний санхүү</span></a>
-      <div class="account-area"><span id="syncStatus" class="sync-status"><span class="status-dot"></span>Google-тэй холбогдсон</span><button id="signOutButton" class="text-button" type="button">Гарах</button></div>
+      <div class="account-area"><span id="syncStatus" class="sync-status"><span class="status-dot"></span>Backend-тэй холбогдоогүй</span><button id="signOutButton" class="text-button" type="button">Гарах</button></div>
     </header>
     <section class="page-intro" id="dashboard"><div><p class="eyebrow">Таны санхүүгийн самбар</p><h1>Мөнгө хаашаа<br><span>явж байна вэ?</span></h1></div><div class="month-picker"><label for="monthFilter">Хугацаа</label><input id="monthFilter" type="month"></div></section>
     <section class="summary-grid" aria-label="Тойм">
@@ -48,9 +48,9 @@
       <button id="saveReceiptButton" class="primary-button receipt-save" type="button">Баримтыг зарлагаар бүртгэх <span>↗</span></button>
       <p id="receiptMessage" class="form-message" role="status"></p>
     </section>
-    <section class="sheets-banner" id="sheetsSettings"><div class="sheets-mark">▦</div><div class="sheets-copy"><p class="eyebrow">Google Sheets</p><h2>Өгөгдлөө өөрийн Sheet-тэй синк хийгээрэй</h2><p>Нэвтэрсний дараа Spreadsheet ID-гаа оруулахад гүйлгээ бүр таны хүснэгтэд хадгалагдана.</p></div><div class="sheets-actions"><input id="spreadsheetId" type="text" placeholder="Spreadsheet ID оруулах"><button id="connectSheetsButton" class="secondary-button" type="button">Холбох</button></div></section>
+    <section class="sheets-banner" id="sheetsSettings"><div class="sheets-mark">▦</div><div class="sheets-copy"><p class="eyebrow">Google Sheets</p><h2>Google Sheets database</h2><p>Гүйлгээ бүр Apps Script Web App-ээр дамжин Transactions sheet-д хадгалагдана.</p></div><div class="sheets-actions"><button id="refreshButton" class="secondary-button" type="button">Дахин ачаалах</button></div></section>
     <p id="sheetMessage" class="sheet-message"></p><footer><span>Таны мэдээлэл таны хяналтад.</span><span id="storageLabel">Энэ төхөөрөмж дээр хадгалж байна</span></footer>
   </main>
-  <script src="js/finance.js?v=2"></script>
+  <script src="js/finance.js?v=3"></script>
 </body>
 </html>
