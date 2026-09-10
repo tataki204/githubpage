@@ -1,4 +1,4 @@
-const API_URL = 'PASTE_APPS_SCRIPT_WEB_APP_URL_HERE';
+const API_URL = 'https://script.google.com/macros/s/AKfycbxjaIndYy2rb4H-792AIc3qLXhdme20KfW9ugmaeR_4PSZJZ1vZbGxPATMuEX5wIUx8/exec';
 const CACHE_KEY = 'my-finance-transactions-cache';
 const categories = { income: ['Цалин', 'Бизнес', 'Хөрөнгө оруулалт', 'Бусад орлого'], expense: ['Хоол хүнс', 'Тээвэр', 'Орон сууц', 'Хэрэглээ', 'Зугаа', 'Бусад зарлага'] };
 let transactions = readCache();

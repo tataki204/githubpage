@@ -7,7 +7,7 @@ function doGet(e) {
   try {
     const action = (e && e.parameter && e.parameter.action) || 'list';
     if (action !== 'list') return jsonResponse({ success: false, error: 'Unsupported GET action.' });
-    const userEmail = String((e.parameter && e.parameter.userEmail) || '').trim();
+    const userEmail = requireUserEmail((e.parameter && e.parameter.userEmail) || '');
     return jsonResponse({ success: true, data: listTransactions(userEmail) });
   } catch (error) {
     return jsonResponse({ success: false, error: error.message });
@@ -33,8 +33,9 @@ function handleAction(action, payload) {
   try {
     if (action === 'add') return addTransaction(sheet, payload.transaction);
     if (action === 'update') return updateTransaction(sheet, payload.transaction);
-    if (action === 'delete') return deleteTransaction(sheet, payload.id, payload.userEmail);
-    return clearTransactions(sheet, payload.userEmail);
+    const userEmail = requireUserEmail(payload.userEmail);
+    if (action === 'delete') return deleteTransaction(sheet, payload.id, userEmail);
+    return clearTransactions(sheet, userEmail);
   } finally {
     lock.releaseLock();
   }
@@ -108,6 +109,12 @@ function validateTransaction(raw) {
   if (!transaction.id || !/^\d{4}-\d{2}-\d{2}$/.test(transaction.date) || !['income', 'expense'].includes(transaction.type) || !transaction.category || !Number.isFinite(transaction.amount) || transaction.amount <= 0 || !transaction.createdAt || !transaction.userEmail) throw new Error('Invalid transaction data.');
   if (ALLOWED_USER_EMAIL && transaction.userEmail !== ALLOWED_USER_EMAIL) throw new Error('This user is not allowed.');
   return transaction;
+}
+
+function requireUserEmail(value) {
+  const email = String(value || '').trim().toLowerCase();
+  if (!email || !email.includes('@')) throw new Error('userEmail is required.');
+  return email;
 }
 
 function transactionToRow(transaction) { return [transaction.id, transaction.date, transaction.type, transaction.category, transaction.amount, transaction.note, transaction.createdAt, transaction.userEmail]; }
