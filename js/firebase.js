@@ -3,12 +3,12 @@ import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signO
 import { getFirestore, collection, deleteDoc, doc, getDocs, orderBy, query, runTransaction, serverTimestamp, writeBatch } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
 
 const firebaseConfig = {
-  apiKey: 'PASTE_FIREBASE_API_KEY_HERE',
-  authDomain: 'PASTE_FIREBASE_AUTH_DOMAIN_HERE',
-  projectId: 'PASTE_FIREBASE_PROJECT_ID_HERE',
-  storageBucket: 'PASTE_FIREBASE_STORAGE_BUCKET_HERE',
-  messagingSenderId: 'PASTE_FIREBASE_MESSAGING_SENDER_ID_HERE',
-  appId: 'PASTE_FIREBASE_APP_ID_HERE'
+  apiKey: 'AIzaSyBjKdbmRjAqNMb_t3Dl4kIOqmkTloDF8L8',
+  authDomain: 'my-finance-db-93977.firebaseapp.com',
+  projectId: 'my-finance-db-93977',
+  storageBucket: 'my-finance-db-93977.firebasestorage.app',
+  messagingSenderId: '731700153480',
+  appId: '1:731700153480:web:dc5d6e4cb730c31c96233d'
 };
 
 const firebaseConfigured = Object.values(firebaseConfig).every((value) => value && !value.startsWith('PASTE_'));

@@ -15,8 +15,9 @@ Firestore is the source of truth. No Apps Script, Google Sheets API, service acc
 3. In **Build > Authentication > Sign-in method**, enable **Google**.
 4. In **Build > Firestore Database**, create a database in production mode.
 5. Register a Web app in **Project settings > Your apps**.
-6. Copy the web config values into `js/firebase.js`, replacing all `PASTE_FIREBASE_*` values.
-7. Publish the complete contents of `firestore.rules` in **Firestore Database > Rules**, then click **Publish**.
+6. The current project config is in `js/firebase.js`; replace it only if you create a different Firebase project.
+7. In **Authentication > Settings > Authorized domains**, add `tataki204.github.io`.
+8. Publish the complete contents of `firestore.rules` in **Firestore Database > Rules**, then click **Publish**.
 
 The public Firebase web config is not a password. Firestore Security Rules and Firebase Auth are the security boundary. Never add Admin SDK credentials or service account keys to this repository.
 
