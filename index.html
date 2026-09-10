@@ -40,6 +40,14 @@
       </article>
       <article class="panel list-panel"><div class="panel-heading"><div><p class="eyebrow">Түүх</p><h2>Сүүлийн гүйлгээ</h2></div><button id="clearButton" class="text-button" type="button">Цэвэрлэх</button></div><div id="transactionList" class="transaction-list"></div><div id="emptyState" class="empty-state"><span>○</span><p>Одоогоор гүйлгээ алга</p><small>Эхний орлого эсвэл зарлагаа бүртгэнэ үү.</small></div></article>
     </section>
+    <section class="panel receipt-panel">
+      <div class="panel-heading"><div><p class="eyebrow">Баримт</p><h2>Үнийг шууд бодох</h2></div><span class="required-note">Нийт дүн автоматаар бодогдоно</span></div>
+      <div id="receiptItems" class="receipt-items"></div>
+      <div class="receipt-add-row"><input id="receiptName" type="text" placeholder="Барааны нэр"><input id="receiptPrice" type="number" min="0" step="1" placeholder="Үнэ"><input id="receiptQuantity" type="number" min="1" step="1" value="1" aria-label="Тоо ширхэг"><button id="addReceiptItem" class="secondary-button" type="button">Нэмэх</button></div>
+      <div class="receipt-total"><span>Нийт</span><strong id="receiptTotal">₮0</strong></div>
+      <button id="saveReceiptButton" class="primary-button receipt-save" type="button">Баримтыг зарлагаар бүртгэх <span>↗</span></button>
+      <p id="receiptMessage" class="form-message" role="status"></p>
+    </section>
     <section class="sheets-banner" id="sheetsSettings"><div class="sheets-mark">▦</div><div class="sheets-copy"><p class="eyebrow">Google Sheets</p><h2>Өгөгдлөө өөрийн Sheet-тэй синк хийгээрэй</h2><p>Нэвтэрсний дараа Spreadsheet ID-гаа оруулахад гүйлгээ бүр таны хүснэгтэд хадгалагдана.</p></div><div class="sheets-actions"><input id="spreadsheetId" type="text" placeholder="Spreadsheet ID оруулах"><button id="connectSheetsButton" class="secondary-button" type="button">Холбох</button></div></section>
     <p id="sheetMessage" class="sheet-message"></p><footer><span>Таны мэдээлэл таны хяналтад.</span><span id="storageLabel">Энэ төхөөрөмж дээр хадгалж байна</span></footer>
   </main>
