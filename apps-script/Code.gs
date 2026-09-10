@@ -1,4 +1,4 @@
-const SPREADSHEET_ID = 'PASTE_YOUR_SPREADSHEET_ID_HERE';
+const SPREADSHEET_ID = '1EHRsoNuXtdNUZ54OOsRWbu3e-vHyiRk3Vm2hwaGoAio';
 const SHEET_NAME = 'Transactions';
 const HEADERS = ['id', 'date', 'type', 'category', 'amount', 'note', 'createdAt', 'userEmail'];
 const ALLOWED_USER_EMAIL = '';
