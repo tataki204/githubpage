@@ -6,8 +6,12 @@ service cloud.firestore {
       return request.auth != null;
     }
 
+    function allowedEmail() {
+      return signedIn() && request.auth.token.email in ['tatakai.javkhaa@gmail.com', 'trader.jabu@gmail.com'];
+    }
+
     function ownsUser(userId) {
-      return signedIn() && request.auth.uid == userId;
+      return signedIn() && request.auth.uid == userId && allowedEmail();
     }
 
     function validTransaction(data, userId, transactionId) {

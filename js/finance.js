@@ -5,6 +5,7 @@ import {
 } from './firebase.js';
 
 const categories = { income: ['Цалин', 'Бизнес', 'Хөрөнгө оруулалт', 'Бусад орлого'], expense: ['Хоол хүнс', 'Тээвэр', 'Орон сууц', 'Хэрэглээ', 'Зугаа', 'Бусад зарлага'] };
+const ALLOWED_EMAILS = ['tatakai.javkhaa@gmail.com', 'trader.jabu@gmail.com'];
 let transactions = [];
 let receiptItems = [];
 let currentUser = null;
@@ -65,7 +66,27 @@ function addReceiptItem() { const name = byId('receiptName').value.trim(); const
 async function saveReceipt() { const total = receiptItems.reduce((sum, item) => sum + item.price * item.quantity, 0); if (!total) { showMessage('receiptMessage', 'Эхлээд баримтад бараа нэмнэ үү.'); return; } const item = { id: crypto.randomUUID(), type: 'expense', amount: total, category: 'Хоол хүнс', date: byId('date').value, note: `Баримт: ${receiptItems.map((receiptItem) => receiptItem.name).join(', ')}` }; if (await saveTransaction(item, 'receiptMessage')) { receiptItems = []; renderReceipt(); showMessage('receiptMessage', 'Баримт зарлагаар хадгалагдлаа.'); } }
 
 function authErrorMessage(error) { if (error.code === 'auth/configuration-not-found') return 'Firebase Console → Authentication → Get started хийгээд Google provider-ийг Enable болгоно уу.'; if (error.code === 'auth/unauthorized-domain') return 'Firebase Console → Authentication → Settings → Authorized domains-д tataki204.github.io нэмнэ үү.'; return `Нэвтэрч чадсангүй: ${error.message}`; }
-async function signIn() { if (!firebaseConfigured) { showMessage('loginMessage', 'firebase.js дотор Firebase config-оо оруулна уу.'); return; } try { await signInWithPopup(auth, googleProvider); } catch (error) { showMessage('loginMessage', authErrorMessage(error)); } }
+async function signIn() {
+  if (!firebaseConfigured) {
+    showMessage('loginMessage', 'firebase.js дотор Firebase config-оо оруулна уу.');
+    return;
+  }
+
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    const email = result.user.email?.toLowerCase();
+
+    if (!email || !ALLOWED_EMAILS.includes(email)) {
+      await signOut(auth);
+      showMessage('loginMessage', 'Энэ хэрэглэгч зөвшөөрөгдсөн биш байна.');
+      return;
+    }
+
+    showMessage('loginMessage', '');
+  } catch (error) {
+    showMessage('loginMessage', authErrorMessage(error));
+  }
+}
 async function logOut() { try { await signOut(auth); } catch (error) { showMessage('sheetMessage', `Гарах үед алдаа гарлаа: ${error.message}`); } }
 function showApp(user) { currentUser = user; byId('loginScreen').classList.add('hidden'); byId('financeApp').classList.remove('hidden'); setStatus(`${user.email || 'Google account'}-ийн санхүү`, true); loadTransactions(); }
 function hideApp() { currentUser = null; editingId = null; transactions = []; receiptItems = []; render(); renderReceipt(); byId('financeApp').classList.add('hidden'); byId('loginScreen').classList.remove('hidden'); setStatus('Firestore-тэй холбогдоогүй'); }
